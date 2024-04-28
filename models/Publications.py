@@ -6,7 +6,7 @@ class Publications(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     id_user = db.Column(db.Integer, db.ForeignKey('Users.id'))
-    date_time = db.Column(db.DateTime, default=datetime.utctimetuple)
+    date_time = db.Column(db.DateTime)
     message = db.Column(db.String(200))
     likes = db.Column(db.Integer)
     quotes = db.Column(db.Boolean)    

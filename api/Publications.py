@@ -19,15 +19,16 @@ def savePublication():
     id_user = request.json['id_user']
     message = request.json['message']
     likes = request.json['likes']
-    quotes = request.json['phone']
-    new_publication = Publications(id_user= id_user, message= message, likes= likes, quotes= quotes)
+    date_time = request.json['date_time']
+    quotes = request.json['quotes']
+    new_publication = Publications(id_user= id_user, message= message, likes= likes, quotes= quotes, date_time= date_time)
     db.session.add(new_publication)
     db.session.commit()
     resultall = Publications.query.all()
     result = publications_schema.dump(resultall)  
     session['publications'] = result
     return jsonify({'mensaje': 'Registro exitoso'}) 
-        
+
 @ruta_publications.route("/updatePublication", methods=["PUT"])
 def updatePublication():
     id = request.json['id']
@@ -35,7 +36,8 @@ def updatePublication():
     nPublication.id_user = request.json['id_user']
     nPublication.message = request.json['message']
     nPublication.likes = request.json['likes']
-    nPublication.quotes = request.json['phone']
+    nPublication.date_time = request.json['date_time']
+    nPublication.quotes = request.json['quotes']
     db.session.commit()
     return "Datos Actualizado con exitos"
 
