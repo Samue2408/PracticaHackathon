@@ -4,7 +4,7 @@ from config.db import db, app, ma
 class Quotes(db.Model):
     __tablename__ = "Quotes"
     
-    id = db.Column(db.integer, primary_key = True, autoincrement = True)
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     publication = db.Column(db.Integer, db.ForeignKey('Publications.id'))
     publication_quotes = db.Column(db.Integer, db.ForeignKey('Publications.id'))
     

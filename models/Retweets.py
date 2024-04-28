@@ -1,13 +1,13 @@
 from config.db import app, db, ma
 from datetime import datetime
 
-class Retweets(db.model):
+class Retweets(db.Model):
     __tablename__ = "Retweets"
     
     id = db.Column(db.Integer, primary_key=True, autoincrement = True)
     date_time = db.Column(db.DateTime, default=datetime.utctimetuple)
-    user = db.Column(db.Integer, db.foreignKey("Users.id"))
-    publication = db.Column(db.Integer, db.foreignKey("Publications.id"))
+    user = db.Column(db.Integer, db.ForeignKey("Users.id"))
+    publication = db.Column(db.Integer, db.ForeignKey("Publications.id"))
     quotes = db.Column(db.Integer, db.ForeignKey("Quotes.id"))
     
     
