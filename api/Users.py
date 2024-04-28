@@ -1,47 +1,57 @@
-from flask import Blueprint, jsonify, request,json, redirect, url_for, session
+from flask import Blueprint, jsonify, request, json, redirect, url_for, session
 from config.db import db, app, ma
 from models.Users import Users, UserSchema
 
-ruta_Example = Blueprint("ruta_Example",__name__)
+ruta_users = Blueprint("ruta_users",__name__)
 
-Example_schema = ExampleSchema()
-Examplees_schema = ExampleSchema(many=True)
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
 
-@ruta_Example.route("/Examplees", methods=["GET"])
-def Examplees():
-    resultall = Example.query.all()
-    result = Examplees_schema.dump(resultall)    
-    session['Examplees'] = result
-    return redirect(url_for("ruta_jornada.jornadas"))
+@ruta_users.route("/Users", methods=["GET"])
+def User():
+    resultall = Users.query.all()
+    result = users_schema.dump(resultall)    
+    session['users'] = result
+    return result
 
-@ruta_Example.route("/saveExample", methods=["POST"])
-def saveExample():
+@ruta_users.route("/saveUser", methods=["POST"])
+def saveUser():
     name = request.json['name'].title()
-    Example = db.session.query(Example.id).filter(Example.nombre == name).all()
-    result = Examplees_schema.dump(Example)
+    User = db.session.query(Users.id).filter(Users.name == name).all()
+    result = users_schema.dump(User)
 
     if len(result)==0:
-        new_Example = Example(name)
-        db.session.add(new_Example)
+        user = request.json['user']
+        password = request.json['password']
+        mail = request.json['mail']
+        phone = request.json['phone']
+        profile_picture = request.json['profile_picture']
+        new_User = Users(name, user, password, mail, phone, profile_picture)
+        db.session.add(new_User)
         db.session.commit()
-        resultall = Example.query.all()
-        result = Examplees_schema.dump(resultall)    
-        session['Examplees'] = result
+        resultall = Users.query.all()
+        result = users_schema.dump(resultall)  
+        session['users'] = result
         return jsonify({'mensaje': 'Registro exitoso'}) 
     else:
         return jsonify({'error': 'Opss... nombre en uso'}), 401 
         
-@ruta_Example.route("/updateExample", methods=["PUT"])
-def updateExample():
+@ruta_users.route("/updateUsers", methods=["PUT"])
+def updateUsers():
     id = request.json['id']
-    nExample = Example.query.get(id) #Select * from Cliente where id = id
-    nExample.nombre = request.json['name'].title()
+    nUser = Users.query.get(id) #Select * from Cliente where id = id
+    nUser.name = request.json['name'].title()
+    nUser.user = request.json['user']
+    nUser.password = request.json['password']
+    nUser.mail = request.json['mail']
+    nUser.phone = request.json['phone']
+    nUser.profile_picture = request.json['profile_picture']
     db.session.commit()
     return "Datos Actualizado con exitos"
 
-@ruta_Example.route("/deleteExample/<id>", methods=["GET"])
-def deleteExample(id):
-    Example = Example.query.get(id)
-    db.session.delete(Example)
+@ruta_users.route("/deleteUser/<id>", methods=["GET"])
+def deleteUser(id):
+    User = Users.query.get(id)
+    db.session.delete(User)
     db.session.commit()
-    return jsonify(Example_schema.dump(Example))
+    return jsonify(user_schema.dump(User))
