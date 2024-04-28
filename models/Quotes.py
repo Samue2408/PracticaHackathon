@@ -1,6 +1,7 @@
 from config.db import db, app, ma
 
-class Citas(db.Model):
+
+class Quotes(db.Model):
     __tablename__ = "Quotes"
     
     id = db.Column(db.integer, primary_key = True, autoincrement = True)
@@ -15,6 +16,6 @@ class Citas(db.Model):
 with app.app_context():
     db.create_all()
     
-class CitasSchema(ma.Schema):
+class QuotesSchema(ma.Schema):
     class Meta:
         fields = ('id', 'cited publication', 'new publication')

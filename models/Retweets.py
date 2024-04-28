@@ -1,8 +1,8 @@
 from config.db import app, db, ma
 from datetime import datetime
 
-class retweets(db.model):
-    __tablename__ = "Retweet"
+class Retweets(db.model):
+    __tablename__ = "Retweets"
     
     id = db.Column(db.Integer, primary_key=True, autoincrement = True)
     date_time = db.Column(db.DateTime, default=datetime.utctimetuple)
