@@ -1,0 +1,9 @@
+@import url(stylesGenerals.css);
+
+.h-100vh{
+    height: 100vh;
+}
+
+.active{
+    background-color: white;
+}
