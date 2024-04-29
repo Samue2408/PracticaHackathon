@@ -23,7 +23,7 @@ def save_retweets():
     new_retweets = Retweets(date_time = date_time, user = user, publication = publication, quotes = quotes)
     db.session.add(new_retweets)
     db.session.commit()
-    resultall = Retweets.query.all()
+    resultall = retweets_schema.dump(Retweets.query.all())
     session['retweets'] = resultall
     return jsonify({'mensaje' : 'Registro existoso'})
 

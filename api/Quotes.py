@@ -13,16 +13,16 @@ def quotes():
     resultall =  Quotes.query.all()
     result = quotes_schema.dump(resultall)
     session['quotes'] = result
-    return redirect(url_for("quotes"))
+    return result
 
 @ruta_quotes.route("/saveQuotes", methods=["POST"])
 def save_quotes():  
-    publication_ = request.json['id']
-    publicacion_quote = request.json['id_q']
-    new_quote = Publications(publication_, publicacion_quote)
+    publication_ = request.json['publication']
+    publicacion_quote = request.json['publication_quotes']
+    new_quote = Quotes(publication_, publicacion_quote)
     db.session.add(new_quote)
     db.session.commit()
-    resultall = Publications.query.all()
+    resultall = quotes_schema.dump(Quotes.query.all())
     session['quotes'] = resultall
     return jsonify({'mensaje' : 'Registro existoso'})
 
@@ -38,6 +38,6 @@ def update_quotes():
 @ruta_quotes.route("/deleteQuotes/<id>", methods=["GET"])
 def delete_quotes(id):
     quote = Quotes.query.get(id)
-    db.session.delete(Quotes)
+    db.session.delete(quote)
     db.session.commit()
     return jsonify(quote_schema.dump(quote))

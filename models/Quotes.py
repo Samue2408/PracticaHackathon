@@ -8,8 +8,7 @@ class Quotes(db.Model):
     publication = db.Column(db.Integer, db.ForeignKey('Publications.id'))
     publication_quotes = db.Column(db.Integer, db.ForeignKey('Publications.id'))
     
-    def __init__(self, id, publication, publication_quotes):
-        self.id = id
+    def __init__(self, publication, publication_quotes):
         self.publication = publication
         self.publication_quotes = publication_quotes
 
@@ -18,4 +17,4 @@ with app.app_context():
     
 class QuotesSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'cited publication', 'new publication')
+        fields = ('id', 'publication', 'publication_quotes')
